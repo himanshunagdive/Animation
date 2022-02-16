@@ -5,16 +5,7 @@ import Animated, {Extrapolate, Value} from 'react-native-reanimated';
 const AnimatedText = ({progress, text, isPlaying, setPlay}) => {
   const newWidth = useRef(0);
   const [nws, setNws] = useState(new Value(0));
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setPlay(true);
-  //   });
-  // }, []);
-  // const width = Animated.interpolateNode(progress, {
-  //   inputRange: [0, 1],
-  //   outputRange: [220, textWidth || 0],
-  //   extrapolate: Extrapolate.CLAMP,
-  // });
+
   const onTextLayout = e => {
     const textWidth = 270 - e?.nativeEvent?.lines[0].width ?? 0;
     console.log('textWidth', textWidth);

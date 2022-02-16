@@ -5,10 +5,9 @@ import Animated, {
   Clock,
   clockRunning,
   cond,
-  EasingNode,
+  Easing,
   eq,
   not,
-  proc,
   set,
   startClock,
   stopClock,
@@ -17,12 +16,16 @@ import Animated, {
   Value,
   call,
   add,
-  debug,
   greaterOrEq,
+  or,
 } from 'react-native-reanimated';
-import {delay} from './components/animatedUtils';
 
-const runTiming = (clock, clockValue, isPlaying, callBack, count) => {
+const runTiming = (
+  clock: Animated.Clock,
+  isPlaying: Animated.Adaptable<number>,
+  callBack: () => void,
+  count: Animated.Adaptable<number>,
+): any => {
   const state = {
     finished: new Value(0),
     position: new Value(0),
@@ -33,14 +36,16 @@ const runTiming = (clock, clockValue, isPlaying, callBack, count) => {
   const config = {
     toValue: new Value(1),
     duration: new Value(3000),
-    easing: EasingNode.inOut(EasingNode.linear),
+    easing: Easing.inOut(Easing.linear),
   };
 
   return block([
     cond(not(isPlaying), [set(state.time, 0)], timing(clock, state, config)),
     cond(eq(state.finished, 1), [
       set(state.count, add(state.count, new Value(1))),
-      cond(greaterOrEq(state.count, count), [stopClock(clock)]),
+      cond(or(greaterOrEq(state.count, count), eq(count, 1)), [
+        stopClock(clock),
+      ]),
       set(state.finished, 0),
       set(state.frameTime, 0),
       set(state.time, 0),
@@ -55,23 +60,24 @@ const runTiming = (clock, clockValue, isPlaying, callBack, count) => {
       call([state.count], callBack),
       set(config.toValue, not(state.position)),
     ]),
-
     state.position,
   ]);
 };
 
-export const useAnimation = (callBack, count) => {
+export const useAnimation = (callBack: () => void, count = 1) => {
   const [play, setPlay] = useState(false);
   const clock = useRef(new Clock()).current;
   const progress = useRef(new Value(0)).current;
   const isPlaying = useRef(new Value(0)).current;
-  const clockValue = useRef(new Value(0)).current;
+  if (!(callBack && typeof callBack === 'function')) {
+    callBack = () => {};
+  }
   useCode(() => [set(isPlaying, play ? 1 : 0)], [play]);
   useCode(
     () => [
       cond(and(isPlaying, not(clockRunning(clock))), [startClock(clock)]),
       cond(and(not(isPlaying), clockRunning(clock)), [stopClock(clock)]),
-      set(progress, runTiming(clock, clockValue, isPlaying, callBack, count)),
+      set(progress, runTiming(clock, isPlaying, callBack, count)),
     ],
     [],
   );
