@@ -18,6 +18,7 @@ import Animated, {
   add,
   greaterOrEq,
   or,
+  EasingNode,
 } from 'react-native-reanimated';
 
 const runTiming = (
@@ -36,7 +37,7 @@ const runTiming = (
   const config = {
     toValue: new Value(1),
     duration: new Value(3000),
-    easing: Easing.inOut(Easing.linear),
+    easing: EasingNode.inOut(EasingNode.linear),
   };
 
   return block([
