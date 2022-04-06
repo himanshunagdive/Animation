@@ -17,6 +17,9 @@ import AnimatedText from './src/components/AnimatedText/AnimatedText';
 import TextAnimator from './src/components/TextAnimator';
 import TextAnimatorHook from './src/components/TextAnimatorHook';
 import AnimatedTextContainer from './src/components/AnimatedText/AnimatedTextContainer';
+import Post from './src/components/HeightAnimation/Post';
+import InstaStories from './src/components/InstaStories';
+import Hiding from './src/components/Hiding';
 
 const App: () => Node = () => {
   // const [play, setPlay, isPlaying, progress] = useAnimation();
@@ -38,7 +41,7 @@ const App: () => Node = () => {
         {/*    setTimeout(() => setPlay(x => !x));*/}
         {/*  }}*/}
         {/*/>*/}
-        <AnimatedTextContainer textArray={textArray} />
+        {/*<AnimatedTextContainer textArray={textArray} />*/}
         {/*<TextAnimator*/}
         {/*  content="Try Searching for things to do️️️️"*/}
         {/*  textStyle={styles.textStyle}*/}
@@ -53,6 +56,9 @@ const App: () => Node = () => {
         {/*  duration={200}*/}
         {/*  onFinish={_onFinish}*/}
         {/*/>*/}
+        {/*<Post />*/}
+        {/*<InstaStories />*/}
+        <Hiding />
       </View>
     </SafeAreaView>
   );
@@ -61,10 +67,7 @@ const App: () => Node = () => {
 const styles = StyleSheet.create({
   sectionContainer: {
     justifyContent: 'center',
-    // alignItems: 'center',
-    padding: 24,
     flex: 1,
-    // backgroundColor: '#000',
   },
   container: {
     flex: 1,

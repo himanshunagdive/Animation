@@ -26,6 +26,7 @@ const runTiming = (
   isPlaying: Animated.Adaptable<number>,
   callBack: () => void,
   count: Animated.Adaptable<number>,
+  scrolled,
 ): any => {
   const state = {
     finished: new Value(0),
@@ -35,7 +36,7 @@ const runTiming = (
     count: new Value(0),
   };
   const config = {
-    toValue: new Value(1),
+    toValue: new Value(scrolled ? 0 : 1),
     duration: new Value(3000),
     easing: EasingNode.inOut(EasingNode.linear),
   };
@@ -54,18 +55,21 @@ const runTiming = (
         config.duration,
         cond(
           eq(state.position, 1),
-          [set(config.duration, 1000)],
-          [set(config.duration, 3000)],
+          [set(config.duration, 500)],
+          [set(config.duration, 500)],
         ),
       ),
       call([state.count], callBack),
       set(config.toValue, not(state.position)),
     ]),
+    // call([state.position], v => {
+    //   console.log(v[0]);
+    // }),
     state.position,
   ]);
 };
 
-export const useAnimation = (callBack: () => void, count = 1) => {
+export const useAnimation = (callBack: () => void, count = 1, scrolled) => {
   const [play, setPlay] = useState(false);
   const clock = useRef(new Clock()).current;
   const progress = useRef(new Value(0)).current;
@@ -78,7 +82,7 @@ export const useAnimation = (callBack: () => void, count = 1) => {
     () => [
       cond(and(isPlaying, not(clockRunning(clock))), [startClock(clock)]),
       cond(and(not(isPlaying), clockRunning(clock)), [stopClock(clock)]),
-      set(progress, runTiming(clock, isPlaying, callBack, count)),
+      set(progress, runTiming(clock, isPlaying, callBack, count, scrolled)),
     ],
     [],
   );
