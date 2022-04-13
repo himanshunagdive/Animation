@@ -4,6 +4,7 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+import android.os.Bundle;
 
 public class MainActivity extends ReactActivity {
 
@@ -23,5 +24,11 @@ public class MainActivity extends ReactActivity {
          return new RNGestureHandlerEnabledRootView(MainActivity.this);
         }
       };
+    }
+// This change is required to avoid crashes related to View state
+// being not persisted consistently across Activity restarts
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(null);
     }
 }

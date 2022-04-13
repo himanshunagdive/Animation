@@ -20,6 +20,7 @@ import AnimatedTextContainer from './src/components/AnimatedText/AnimatedTextCon
 import Post from './src/components/HeightAnimation/Post';
 import InstaStories from './src/components/InstaStories';
 import Hiding from './src/components/Hiding';
+import HeaderAnimation from './src/components/AnimatedHeader/AnimatedHeader';
 
 const App: () => Node = () => {
   // const [play, setPlay, isPlaying, progress] = useAnimation();
@@ -58,7 +59,8 @@ const App: () => Node = () => {
         {/*/>*/}
         {/*<Post />*/}
         {/*<InstaStories />*/}
-        <Hiding />
+        {/*<Hiding />*/}
+        <HeaderAnimation />
       </View>
     </SafeAreaView>
   );

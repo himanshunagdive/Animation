@@ -25,6 +25,7 @@ const runTiming = (
   isPlaying: Animated.Adaptable<number>,
   callBack: () => void,
   toValue: Animated.Adaptable<number>,
+  duration: number,
 ): any => {
   const state = {
     finished: new Value(0),
@@ -34,7 +35,7 @@ const runTiming = (
   };
   const config = {
     toValue: toValue,
-    duration: new Value(1300),
+    duration: new Value(duration ?? 500),
     easing: Easing.inOut(Easing.linear),
   };
 
@@ -51,7 +52,7 @@ const runTiming = (
   ]);
 };
 
-export const useValueAnimation = (callBack: () => void) => {
+export const useValueAnimation = (callBack: () => void, duration: number) => {
   const clock = useRef(new Clock()).current;
   const currentAnimationValue = useRef(new Value(0)).current;
   const isPlaying = useRef(new Value(0)).current;
@@ -65,7 +66,7 @@ export const useValueAnimation = (callBack: () => void) => {
       cond(and(not(isPlaying), clockRunning(clock)), [stopClock(clock)]),
       set(
         currentAnimationValue,
-        runTiming(clock, isPlaying, callBack, toValue),
+        runTiming(clock, isPlaying, callBack, toValue, duration),
       ),
     ],
     [],
