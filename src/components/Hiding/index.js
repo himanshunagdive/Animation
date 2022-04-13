@@ -45,15 +45,15 @@ const Hiding = () => {
           <TIOW />
         </Animated.View>
       ) : null}
-      {/*<View style={styles.blueBox}>*/}
-      {/*  <TouchableOpacity*/}
-      {/*    onPress={() => {*/}
-      {/*      console.log('@himanshu pressed');*/}
-      {/*    }}>*/}
-      {/*    <View*/}
-      {/*      style={{height: 50, width: 100, backgroundColor: 'green'}}></View>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*</View>*/}
+      <View style={styles.blueBox}>
+        <TouchableOpacity
+          onPress={() => {
+            console.log('@himanshu pressed');
+          }}>
+          <View
+            style={{height: 50, width: 100, backgroundColor: 'green'}}></View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
